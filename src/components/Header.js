@@ -2,41 +2,58 @@ import React, { useState } from 'react'
 import styled from "styled-components";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { selectCars } from '../features/car/carSlice';
+import { useSelector } from 'react-redux';
 
 function Header() {
 
     const [ burgerStatus, setBurgerStatus] = useState( false );
+    const cars = useSelector(selectCars)
 
 
     return (
         <Container>
-            <a href="#">
+            <a href="javascript:void(0)">
                 <img src="/images/logo.svg" alt=""/>
             </a>
 
             <Menu>
-                <a href="#">Model S</a>
-                <a href="#">Model 3</a>
-                <a href="#">Model X</a>
-                <a href="#">Model Y</a>
+                {cars && cars.map((cars, index) =>(
+                 
+                 <a key={index} href="#"> { cars }</a>
+
+
+                )
+                
+                
+                )}
+                
 
             </Menu>
 
             <RightMenu>
-                <a href="#">Shop</a>
-                <a href="#">Tesla Account</a>
-                <CustomMenu onClick={ () => setBurgerStatus(true)}/>
+                <a href="javascript:void(0)">Shop</a>
+                <a href="javascript:void(0)">Tesla Account</a>
+                <CustomMenu onClick={ () => setBurgerStatus(true)} />
             </RightMenu>
 
 
  <BurgerNav show = { burgerStatus }>
        <CloseWrapper>
          
-         <CustomClose onClick={ () => setBurgerStatus(false) }/>
+         <CustomClose onClick={ () => setBurgerStatus(false) } />
          
          </CloseWrapper>
 
-     
+     {cars && cars.map((cars, index) =>(
+                 
+                 <li><a key={index} href="#"> { cars }</a> </li>
+
+
+                )
+                
+                
+                )}
 
              <li><a href="#">Existing Inventory</a></li>
              <li><a href="#">Used Inventory</a></li>
@@ -121,11 +138,11 @@ padding: 20px;
 display: flex;
 flex-direction: column;
 text-align: start;
-transform: ${props => props.show ? 'translateX(0)':'translatex(100)'};
-
+transform: ${props => props.show ? 'translateX(0)':'translateX(100%)'};
+transition: transform 0.2s;
 li{
     padding:15px 0;
-    border-bottom: 1px soild rgba(0, 0, 0, .2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
 
     a{
         font-weight: 600;
@@ -134,7 +151,8 @@ li{
 
 
 `
-const CustomClose = styled(CloseIcon)`
+const CustomClose = styled(CloseIcon)
+`
 cursor: pointer;
 
 
